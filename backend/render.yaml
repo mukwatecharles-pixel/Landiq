@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: landiq-backend
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: PORT
+        value: 10000
