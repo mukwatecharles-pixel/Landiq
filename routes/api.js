@@ -1,59 +1,47 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// Add this near your other route definitions in server.js
-const apiRoutes = require('./routes/api')(pool);
-app.use('/api', apiRoutes);
 
-// We will pass the pg pool instance into a function or import it directly
-module.exports = (pool) => {
-  
-  // 1. User Login Route
+module.exports = function(pool) {
+  const router = express.Router();
+
+  // Login Endpoint
   router.post('/auth/login', async (req, res) => {
+    const { email, password } = req.body;
+
     try {
-      const { email, password } = req.body;
-      
+      // 1. Query user from PostgreSQL database
       const userQuery = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+      
       if (userQuery.rows.length === 0) {
         return res.status(401).json({ success: false, message: 'Invalid email or password' });
       }
 
-      const user = userQuery.rows[0];
+      const user = userQuery.rows.logins || userQuery.rows[0];
+
+      // 2. Compare password hash
       const isMatch = await bcrypt.compare(password, user.password_hash);
-      
       if (!isMatch) {
         return res.status(401).json({ success: false, message: 'Invalid email or password' });
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET || 'secret', { expiresIn: '1d' });
-
-      res.json({ success: true, token, user: { id: user.id, email: user.email } });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, message: 'Server error' });
-    }
-  });
-
-  // 2. Escrow Initiation Route
-  router.post('/escrow/initiate', async (req, res) => {
-    try {
-      const { parcelId, buyerId, amount } = req.body;
-
-      const escrowQuery = await pool.query(
-        `INSERT INTO escrow_transactions (parcel_id, buyer_id, amount, status) 
-         VALUES ($1, $2, $3, 'pending_verification') RETURNING *`,
-        [parcelId, buyerId, amount]
+      // 3. Generate JWT Token
+      const token = jwt.sign(
+        { userId: user.id, email: user.email }, 
+        process.env.JWT_SECRET || 'fallback_secret', 
+        { expiresIn: '7d' }
       );
 
-      res.json({ 
-        success: true, 
-        message: 'Escrow initialized successfully. Awaiting NLC verification.', 
-        escrow: escrowQuery.rows[0] 
+      // 4. Send successful JSON response
+      return res.status(200).json({
+        success: true,
+        token,
+        user: { id: user.id, email: user.email, name: user.name }
       });
+
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, message: 'Failed to initialize escrow' });
+      console.error('Login error:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
     }
   });
 
