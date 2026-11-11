@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function LandIQHome() {
   return (
@@ -11,20 +12,20 @@ export default function LandIQHome() {
             <span className="text-xl font-black tracking-wider text-emerald-400">LANDIQ</span>
           </div>
           <nav className="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
-            <a href="#search" className="hover:text-emerald-400 transition">Explore Land</a>
-            <a href="#valuation" className="hover:text-emerald-400 transition">AI Valuation & LandScore™</a>
-            <a href="#escrow" className="hover:text-emerald-400 transition">Secure Escrow</a>
+            <Link href="#search" className="hover:text-emerald-400 transition">Explore Land</Link>
+            <Link href="#valuation" className="hover:text-emerald-400 transition">AI Valuation & LandScore™</Link>
+            <Link href="#escrow" className="hover:text-emerald-400 transition">Secure Escrow</Link>
           </nav>
           <div className="flex items-center space-x-3">
-            <a href="/login" className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+            <Link href="/login" className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
               Client Portal Login
-            </a>
+            </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-6 text-center bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800">
+      <section id="search" className="py-20 px-6 text-center bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800">
         <div className="max-w-3xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950 px-3 py-1 rounded-full border border-emerald-800">
             🌿 Verified Land • Zero Brokers • Zero Fraud
@@ -74,9 +75,9 @@ export default function LandIQHome() {
                 <p className="text-[10px] text-slate-500 uppercase">Asking Price</p>
                 <span className="text-xl font-black text-emerald-400">KES 3,200,000</span>
               </div>
-              <button className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition border border-slate-700">
+              <Link href="/reports/209-4521" className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition border border-slate-700 text-center">
                 View Report
-              </button>
+              </Link>
             </div>
           </div>
         </div>
