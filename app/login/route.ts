@@ -2,12 +2,15 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { email, password } = body;
+    const { email, password } = await request.json();
 
-    // Add your validation logic here (e.g., check database)
-    if (email === 'mukwatecharles@gmail.com' && password) {
-      return NextResponse.json({ success: true, token: 'mock-jwt-token' });
+    // Validate credentials (replace with your actual database lookup later)
+    if (email && password) {
+      return NextResponse.json({
+        success: true,
+        token: 'mock-jwt-token-landiq',
+        user: { email, name: 'Client' }
+      });
     }
 
     return NextResponse.json(
