@@ -11,7 +11,6 @@ export default function MasterDashboardHub() {
       items: [
         { name: 'Explore Land Search', href: '/search', desc: 'Browse verified parcels with interactive filters' },
         { name: 'List Land Wizard', href: '/list-land', desc: 'Submit title deeds & trigger NLC registry checks' },
-        { name: 'AI Valuation & LandScore', href: '/#valuation', desc: 'Inspect predictive pricing and risk factors' },
       ]
     },
     {
