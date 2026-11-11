@@ -12,6 +12,7 @@ export default function Navbar() {
           <span className="text-xl font-black tracking-wider text-emerald-400">LANDIQ</span>
         </Link>
         <nav className="hidden md:flex items-center space-x-4 text-xs font-semibold text-slate-300">
+          <Link href="/dashboard" className="text-emerald-400 hover:underline">Control Hub</Link>
           <Link href="/search" className="hover:text-emerald-400 transition">Explore Land</Link>
           <Link href="/seller-dashboard" className="hover:text-emerald-400 transition">Seller Dashboard</Link>
           <Link href="/ussd" className="hover:text-emerald-400 transition">USSD *384#</Link>
@@ -27,7 +28,7 @@ export default function Navbar() {
           Profile & Settings
         </Link>
         <Link href="/login" className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl transition shadow-lg">
-          Client Portal Login
+          Client Login
         </Link>
       </div>
     </header>
