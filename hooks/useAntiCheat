@@ -1,0 +1,19 @@
+'use client'; // Required for Next.js client components
+
+import { useEffect } from 'react';
+
+export default function useAntiCheat() {
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        console.warn('Warning: Screen-switching or tab-blur detected during secure workflow.');
+        // Optional: Trigger your security log or lock sensitive escrow inputs here
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+}
