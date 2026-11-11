@@ -1,10 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Navbar from './components/Navbar';
 
 export default function Home() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+    } else {
+      router.push('/search');
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 font-sans pb-20">
       <Navbar />
@@ -20,17 +33,19 @@ export default function Home() {
           Buy and sell land securely across Kenya with automated National Land Commission registry checks, PostGIS boundaries, and AI LandScore™ analytics.
         </p>
 
-        {/* Search Bar */}
-        <div className="max-w-xl mx-auto flex gap-2 bg-slate-900 border border-slate-800 p-2 rounded-2xl shadow-2xl">
+        {/* Working Search Bar */}
+        <form onSubmit={handleSearch} className="max-w-xl mx-auto flex gap-2 bg-slate-900 border border-slate-800 p-2 rounded-2xl shadow-2xl">
           <input 
             type="text" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by county (e.g. Nakuru, Kiambu, Nairobi)..." 
             className="w-full bg-transparent px-4 py-3 text-sm text-white focus:outline-none"
           />
-          <Link href="/search" className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-xs transition flex items-center">
+          <button type="submit" className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-xs transition flex items-center shrink-0">
             Search Verified Land
-          </Link>
-        </div>
+          </button>
+        </form>
       </div>
 
       {/* Featured Listings Section */}
